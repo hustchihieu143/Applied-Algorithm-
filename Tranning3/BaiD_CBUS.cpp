@@ -1,48 +1,77 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define MAX 1000
+#define MAX 100
 int n, k;
 int c[MAX][MAX];
 int marked[MAX];
-int cur;   // luu tong do dai cac doan duong da di
+int cur;   // luu so khach hien tai
 int ans;   // tra ve  ket qua nho nhat
 int x[MAX];
+int s;     // luu quang duong
+
 
 void input() {
-    cin >> n;
-    for(int i = 0; i < n; i++) {
-        for(int j = 0; j < n; j++) {
+    cin >> n >> k;
+    for(int i = 1; i <= 2*n+1; i++) {
+        for(int j = 1; j <= 2*n+1; j++) {
             cin >> c[i][j];
         }
     }
 }
 
-void TRY(int k) {
-    for(int v = 1; v < n; v++) {
-        if(!marked[v]) {
-            x[k] = v;
-            cur += c[x[k-1]][x[k]];
-            marked[k] = 1;
-            if(k == n-1) {
-                if(cur + c[x[n-1]][x[0]] < ans) {
-                    ans = cur + c[x[n-1]][x[0]];
-                }
-            }
-            else TRY(k+1);
-            cur -= c[x[k-1]][x[k]];
-            marked[k] = 0;
+void solution() {
+    for(int i = 1; i <= 2*n; i++) {
+        cout << x[i] << " ";
+    }
+    cout << endl;
+}
+
+bool check(int v) {
+    if(marked[v]) return false;  // da den roi
+    else {
+        if(v <= n) {              // dang don khach
+            if(cur >= k) return false;  // so luong khach vuot muc cho phep
+        }
+        else {
+            if(!marked[v-n]) return false;    // den cho tra khach ma ko thay khach dau
         }
     }
+    return true;
+}
+
+void TRY(int i) {
+   for(int v = 2; v <= 2*n; v++) {
+        if(check(v)) {
+            x[i] = v;
+            marked[v] = 1;
+            if(v <= n) cur++; else cur--;
+
+            s += c[x[i-1]][x[i]];
+            if(i == 2*n) {
+                if(s + c[x[i]][x[1]] < ans) {
+                    ans = s + c[x[i]][x[1]];
+                }
+
+            }
+            else TRY(i+1);
+            marked[v] = 0;
+            if(v <= n) cur--; else cur++;
+            s -= c[x[i-1]][x[i]];
+        }
+   }
 }
 
 void solve() {
     ans = 1000;
-    cur = 0;
-    for(int i = 0; i < n; i++) {
+    s = 0;
+    cur = 1;
+    for(int i = 1; i <= 2*n; i++) {
         marked[i] = 0;
     }
-    TRY(1);
+    marked[1] = 1;
+    x[1] = 1;
+    TRY(2);
     cout << ans;
 }
 
@@ -50,7 +79,6 @@ void solve() {
 
 
 int main(){
-
     input();
     solve();
    return 0;
