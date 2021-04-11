@@ -4,7 +4,7 @@ using namespace std;
 int x[9];  // x[1]=I, x[2]=C, x[3]=T, x[4]=H, x[5]=U, x[6]=S, x[7]=k;
 int N;
 int ans;
-int marked[9];
+int marked[10];
 
 void solution() {
     int T = x[1]*100 + x[2]*10 + x[3] - x[7]*100 - 62 + x[4]*1000 + x[5]*100 + x[6]*10 + x[3];
@@ -31,9 +31,11 @@ void TRY(int k) {
 }
 
 int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(0);
     init();
     ans = 0;
-    N = 1234;
+    cin >> N;
     TRY(1);
     cout << ans;
    return 0;
