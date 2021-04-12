@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define MAX 100
+#define MAX 1000
 int n, k;
 int c[MAX][MAX];
 int marked[MAX];
@@ -13,8 +13,8 @@ int s;     // luu quang duong
 
 void input() {
     cin >> n >> k;
-    for(int i = 1; i <= 2*n+1; i++) {
-        for(int j = 1; j <= 2*n+1; j++) {
+    for(int i = 0; i < 2*n+1; i++) {
+        for(int j = 0; j < 2*n+1; j++) {
             cin >> c[i][j];
         }
     }
@@ -41,18 +41,18 @@ bool check(int v) {
 }
 
 void TRY(int i) {
-   for(int v = 2; v <= 2*n; v++) {
+   for(int v = 1; v <= 2*n; v++) {
         if(check(v)) {
             x[i] = v;
             marked[v] = 1;
             if(v <= n) cur++; else cur--;
-
             s += c[x[i-1]][x[i]];
             if(i == 2*n) {
-                if(s + c[x[i]][x[1]] < ans) {
-                    ans = s + c[x[i]][x[1]];
+                if(s + c[x[i]][x[0]] < ans) {
+                    ans = s + c[x[i]][x[0]];
                 }
-
+//                cout << "s: " << s << endl;
+//                solution();
             }
             else TRY(i+1);
             marked[v] = 0;
@@ -65,13 +65,12 @@ void TRY(int i) {
 void solve() {
     ans = 1000;
     s = 0;
-    cur = 1;
+    cur = 0;
     for(int i = 1; i <= 2*n; i++) {
         marked[i] = 0;
     }
-    marked[1] = 1;
-    x[1] = 1;
-    TRY(2);
+    x[0] = 0;
+    TRY(1);
     cout << ans;
 }
 
@@ -79,6 +78,8 @@ void solve() {
 
 
 int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(0);
     input();
     solve();
    return 0;
