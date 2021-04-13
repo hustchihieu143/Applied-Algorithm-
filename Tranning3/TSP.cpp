@@ -22,7 +22,7 @@ void input() {
 
 
 void TRY(int k) {
-    //if(cur + c_min * (n - k + 1) >= ans) return;
+    if(cur + c_min * (n - k + 1) >= ans) return;
     for(int v = 2; v <= n; v++) {
         if(!marked[v]) {
             x[k] = v;
@@ -34,7 +34,7 @@ void TRY(int k) {
                 }
             }
             else TRY(k+1);
-            cur -= c[x[k-1]][v];
+            cur -= c[x[k-1]][x[k]];
             marked[v] = 0;
         }
     }
